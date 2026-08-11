@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="A little love letter of a website.">
+<meta name="theme-color" content="#B5445E">
+<title>For GORDITA 🩷</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ctext y='26' font-size='28'%3E%F0%9F%A9%B7%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Jost:wght@300;400;500&family=Parisienne&display=swap" rel="stylesheet">
+<style>
+
+  :root{
+    --blush: #f8dee4;
+    --blush-2: #f4cdd9;
+    --paper: #fff9f3;
+    --paper-shade: #fdefe6;
+    --rose: #b5445e;
+    --rose-deep: #8c2f45;
+    --wine: #4a1e2b;
+    --gold: #c9a468;
+    --gold-light: #e6cfa0;
+    --ink: #3a2530;
+    --ink-soft: #7a5866;
+    --shadow: rgba(74, 30, 43, 0.18);
+  }
+
+  *{ box-sizing:border-box; }
+  html{ scroll-behavior:smooth; }
+  body{
+    margin:0;
+    background: linear-gradient(180deg, var(--blush) 0%, var(--blush-2) 45%, var(--paper) 100%);
+    background-attachment: fixed;
+    color: var(--ink);
+    font-family: 'Jost', sans-serif;
+    font-weight:300;
+    overflow-x:hidden;
+    position:relative;
+  }
+  h1,h2,h3{
+    font-family:'Cormorant Garamond', serif;
+    color: var(--wine);
+    margin:0 0 .4em;
+    font-weight:600;
+  }
+  p{ line-height:1.75; margin:0 0 1em; }
+  .script{ font-family:'Parisienne', cursive; }
+  section{ position:relative; z-index:1; padding: 6rem 1.5rem; max-width: 1000px; margin:0 auto; }
+  .section-heading{
+    text-align:center;
+    font-size: clamp(1.8rem, 4vw, 2.6rem);
+    margin-bottom: 3rem;
+    letter-spacing: .02em;
+  }
+  .section-heading::after{
+    content:"";
+    display:block;
+    width:60px; height:2px;
+    margin: .7rem auto 0;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  }
+  button{ font-family:'Jost', sans-serif; cursor:pointer; border:none; }
+  img{ display:block; max-width:100%; }
+
+  /* ============================================================
+     AMBIENT FLOATING HEARTS (background)
+     ============================================================ */
+  #hearts-bg{
+    position:fixed; inset:0;
+    pointer-events:none;
+    overflow:hidden;
+    z-index:0;
+  }
+  .drift-heart{
+    position:absolute;
+    bottom:-10%;
+    line-height:1;
+    animation-name: floatUp;
+    animation-timing-function: ease-in;
+    animation-iteration-count: infinite;
+    will-change: transform, opacity;
+  }
+  @keyframes floatUp{
+    0%   { transform: translateY(0) translateX(0) rotate(0deg); opacity:0; }
+    8%   { opacity: .8; }
+    92%  { opacity: .6; }
+    100% { transform: translateY(-115vh) translateX(var(--drift, 30px)) rotate(25deg); opacity:0; }
+  }
+
+  /* ============================================================
+     ENVELOPE GATE
+     ============================================================ */
+  #envelope{
+    position:fixed; inset:0;
+    z-index:1000;
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    text-align:center;
+    background: radial-gradient(ellipse at top, var(--blush-2) 0%, var(--blush) 60%, var(--paper-shade) 100%);
+    transition: opacity .7s ease;
+    padding: 1.5rem;
+  }
+  #envelope.opened{ opacity:0; pointer-events:none; }
+  .envelope-eyebrow{
+    text-transform: lowercase;
+    letter-spacing:.18em;
+    font-size:.8rem;
+    color: var(--ink-soft);
+    margin-bottom: 1.2rem;
+  }
+  .envelope-card{
+    position:relative;
+    width: min(300px, 78vw);
+    height: 190px;
+    margin-bottom: 1.6rem;
+  }
+  .envelope-body{
+    position:absolute; inset:0;
+    background: var(--paper);
+    border: 1px solid var(--gold-light);
+    border-radius: 4px;
+    box-shadow: 0 20px 40px var(--shadow);
+  }
+  .envelope-flap{
+    position:absolute; top:0; left:0; right:0; height:52%;
+    background: linear-gradient(160deg, var(--paper-shade), var(--paper));
+    clip-path: polygon(0 0, 100% 0, 50% 100%);
+    border:1px solid var(--gold-light);
+    transform-origin: top center;
+    transition: transform .9s cubic-bezier(.6,.1,.3,1);
+    z-index:2;
+  }
+  #envelope.opening .envelope-flap{ transform: rotateX(180deg); }
+  .envelope-seal{
+    position:absolute; top:44%; left:50%;
+    transform: translate(-50%,-50%);
+    width:58px; height:58px; border-radius:50%;
+    background: radial-gradient(circle at 35% 30%, var(--rose), var(--rose-deep));
+    display:flex; align-items:center; justify-content:center;
+    color: var(--gold-light);
+    font-size:1.4rem;
+    box-shadow: 0 6px 16px var(--shadow), inset 0 1px 3px rgba(255,255,255,.3);
+    border:none;
+    z-index:3;
+    transition: transform .4s ease, opacity .4s ease;
+  }
+  .envelope-seal:hover{ transform: translate(-50%,-50%) scale(1.08); }
+  #envelope.opening .envelope-seal{ transform: translate(-50%,-50%) scale(0) rotate(25deg); opacity:0; }
+  .envelope-hint{
+    font-size:.85rem;
+    color: var(--ink-soft);
+    letter-spacing:.03em;
+  }
+
+  /* ============================================================
+     MAIN CONTENT + reveal-on-scroll
+     ============================================================ */
+  #main-content{ position:relative; z-index:1; }
+  .reveal{ opacity:0; transform: translateY(26px); transition: opacity .8s ease, transform .8s ease; }
+  .reveal.in-view{ opacity:1; transform:none; }
+
+  /* HERO */
+  .hero{
+    min-height: 92vh;
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    text-align:center;
+    padding: 2rem 1.5rem;
+  }
+  .hero-eyebrow{
+    text-transform:lowercase;
+    letter-spacing:.2em;
+    font-size:.82rem;
+    color: var(--ink-soft);
+    margin-bottom:1.4rem;
+  }
+  .hero-headline{
+    font-size: clamp(2rem, 6vw, 3.6rem);
+    line-height:1.25;
+    max-width: 15ch;
+    margin-bottom: 1.2rem;
+  }
+  .hero-sub{
+    color: var(--ink-soft);
+    font-size: 1.05rem;
+    max-width: 40ch;
+  }
+  .scroll-cue{
+    margin-top: 3rem;
+    width:22px; height:22px;
+    border-right:2px solid var(--gold);
+    border-bottom:2px solid var(--gold);
+    transform:rotate(45deg);
+    animation: bob 2.2s ease-in-out infinite;
+  }
+  @keyframes bob{
+    0%,100%{ transform:rotate(45deg) translate(0,0); }
+    50%{ transform:rotate(45deg) translate(6px,6px); }
+  }
+
+  /* TIMELINE */
+  .timeline-track{ position:relative; padding: 1rem 0 0; }
+  .timeline-track::before{
+    content:"";
+    position:absolute; left:50%; top:0; bottom:0; width:2px;
+    transform: translateX(-50%);
+    background: linear-gradient(180deg, transparent, var(--gold) 8%, var(--gold) 92%, transparent);
+  }
+  .timeline-item{
+    position:relative;
+    width: calc(50% - 46px);
+    margin-bottom: 3.2rem;
+    background: var(--paper);
+    border: 1px solid rgba(201,164,104,.35);
+    border-radius: 14px;
+    padding: 1.4rem 1.6rem;
+    box-shadow: 0 10px 26px var(--shadow);
+  }
+  .timeline-item:nth-child(odd){ left:0; }
+  .timeline-item:nth-child(even){ left: calc(50% + 46px); }
+  .timeline-item::before{
+    content:"";
+    position:absolute; top:1.7rem;
+    width:13px; height:13px; border-radius:50%;
+    background: var(--rose);
+    box-shadow: 0 0 0 4px var(--paper), 0 0 0 5px var(--gold);
+  }
+  .timeline-item:nth-child(odd)::before{ right:-53px; }
+  .timeline-item:nth-child(even)::before{ left:-53px; }
+  .timeline-date{
+    font-family:'Parisienne', cursive;
+    font-size:1.35rem;
+    color: var(--rose);
+    margin-bottom:.2rem;
+  }
+  .timeline-title{
+    font-family:'Cormorant Garamond', serif;
+    font-weight:600;
+    font-size:1.3rem;
+    color: var(--wine);
+    margin-bottom:.5rem;
+  }
+  .timeline-photo{
+    width:100%; height:150px; object-fit:cover;
+    border-radius:8px; margin-bottom:.8rem;
+    background: linear-gradient(135deg, var(--blush-2), var(--gold-light));
+  }
+  .timeline-photo-wrap{
+    width:100%; height:150px; border-radius:8px; margin-bottom:.8rem; overflow:hidden;
+    background: linear-gradient(135deg, var(--blush-2), var(--gold-light));
+    display:flex; align-items:center; justify-content:center;
+  }
+  .timeline-photo-wrap.no-image::before{
+    content:"add a photo";
+    font-size:.8rem; letter-spacing:.05em; color: var(--rose-deep); opacity:.75;
+  }
+  .timeline-text{ font-size:.95rem; color: var(--ink-soft); margin:0; }
+
+  /* REASONS */
+  .reasons-grid{
+    display:grid;
+    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+    gap: 1.4rem;
+  }
+  .flip-card{
+    perspective: 1200px;
+    height: 190px;
+  }
+  .flip-card-inner{
+    position:relative; width:100%; height:100%;
+    transition: transform .7s cubic-bezier(.6,.1,.3,1);
+    transform-style: preserve-3d;
+    cursor:pointer;
+  }
+  .flip-card.flipped .flip-card-inner{ transform: rotateY(180deg); }
+  .flip-face{
+    position:absolute; inset:0;
+    backface-visibility:hidden;
+    border-radius:14px;
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    text-align:center;
+    padding: 1.4rem;
+    box-shadow: 0 10px 24px var(--shadow);
+  }
+  .flip-front{
+    background: linear-gradient(160deg, var(--paper), var(--paper-shade));
+    border: 1px solid rgba(201,164,104,.4);
+  }
+  .flip-front .heart-icon{ font-size:1.8rem; color: var(--rose); margin-bottom:.6rem; }
+  .flip-front .flip-hint{ font-size:.75rem; color: var(--ink-soft); letter-spacing:.06em; text-transform:lowercase; }
+  .flip-back{
+    background: linear-gradient(160deg, var(--rose), var(--rose-deep));
+    color: var(--paper);
+    transform: rotateY(180deg);
+    font-family:'Cormorant Garamond', serif;
+    font-size:1.08rem;
+    line-height:1.5;
+  }
+
+  /* GALLERY */
+  .gallery-grid{
+    display:grid;
+    grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+    gap: 2.2rem;
+    padding-top: .5rem;
+  }
+  .polaroid{
+    background: var(--paper);
+    padding: 14px 14px 20px;
+    border-radius: 4px;
+    box-shadow: 0 12px 26px var(--shadow);
+    transform: rotate(var(--r, 0deg));
+    transition: transform .35s ease, box-shadow .35s ease;
+  }
+  .polaroid:hover{
+    transform: rotate(0deg) translateY(-8px) scale(1.03);
+    box-shadow: 0 20px 34px var(--shadow);
+  }
+  .polaroid-img{
+    width:100%; aspect-ratio: 1 / 1; overflow:hidden; border-radius:2px;
+    background: linear-gradient(135deg, var(--blush-2), var(--gold-light));
+    display:flex; align-items:center; justify-content:center;
+  }
+  .polaroid-img img{ width:100%; height:100%; object-fit:cover; }
+  .polaroid-img.no-image::before{
+    content:"♡";
+    font-size:2.2rem;
+    color: var(--rose-deep);
+    opacity:.55;
+  }
+  .polaroid-caption{
+    font-family:'Parisienne', cursive;
+    text-align:center;
+    font-size:1.05rem;
+    color: var(--ink-soft);
+    padding-top: .7rem;
+  }
+
+  /* LETTER */
+  .letter-card{
+    background: var(--paper);
+    border: 1px solid rgba(201,164,104,.4);
+    border-radius: 16px;
+    padding: clamp(1.8rem, 5vw, 3.4rem);
+    box-shadow: 0 16px 34px var(--shadow);
+    position:relative;
+  }
+  .letter-card::before{
+    content:"";
+    position:absolute; top:22px; left:22px; right:22px; bottom:22px;
+    border: 1px solid rgba(201,164,104,.25);
+    border-radius: 10px;
+    pointer-events:none;
+  }
+  .letter-para{
+    font-family:'Cormorant Garamond', serif;
+    font-size: 1.25rem;
+    color: var(--wine);
+    max-width: 62ch;
+    margin: 0 auto 1.1em;
+  }
+  .letter-sign{
+    font-family:'Parisienne', cursive;
+    font-size: 1.6rem;
+    color: var(--rose);
+    text-align:right;
+    max-width: 62ch;
+    margin: 1.4em auto 0;
+  }
+
+  /* SECRET */
+  .secret{ text-align:center; padding-top: 2rem; padding-bottom: 2rem; }
+  #secret-btn{
+    background: linear-gradient(135deg, var(--rose), var(--rose-deep));
+    color: var(--paper);
+    padding: .9rem 2.1rem;
+    border-radius: 999px;
+    font-size: .95rem;
+    letter-spacing:.03em;
+    box-shadow: 0 10px 22px var(--shadow);
+    transition: transform .25s ease, box-shadow .25s ease;
+    position:relative;
+  }
+  #secret-btn:hover{ transform: translateY(-3px); box-shadow: 0 16px 28px var(--shadow); }
+  #secret-btn:active{ transform: translateY(0) scale(.97); }
+  .secret-message{
+    margin: 2rem auto 0;
+    max-width: 46ch;
+    font-family:'Cormorant Garamond', serif;
+    font-size: 1.4rem;
+    color: var(--wine);
+    opacity:0;
+    transform: translateY(14px) scale(.98);
+    transition: opacity .6s ease, transform .6s ease;
+  }
+  .secret-message.shown{ opacity:1; transform:none; }
+  .burst-heart{
+    position:fixed;
+    pointer-events:none;
+    color: var(--rose);
+    z-index: 500;
+    animation: burst .9s ease-out forwards;
+  }
+  @keyframes burst{
+    0%{ transform: translate(0,0) scale(.6); opacity:1; }
+    100%{ transform: translate(var(--bx), var(--by)) scale(1.1); opacity:0; }
+  }
+
+  /* FOOTER */
+  .site-footer{
+    text-align:center;
+    padding: 4rem 1.5rem 5rem;
+  }
+  .footer-script{
+    font-family:'Parisienne', cursive;
+    font-size: 1.7rem;
+    color: var(--rose);
+    margin-bottom:.3rem;
+  }
+  .footer-date{
+    font-size:.85rem;
+    color: var(--ink-soft);
+    letter-spacing:.04em;
+  }
+
+  /* MOBILE */
+  @media (max-width: 700px){
+    .timeline-track::before{ left:20px; }
+    .timeline-item{ width: calc(100% - 52px); left:52px !important; }
+    .timeline-item:nth-child(odd)::before,
+    .timeline-item:nth-child(even)::before{ left:-40px; right:auto; }
+  }
+
+  /* REDUCED MOTION */
+  @media (prefers-reduced-motion: reduce){
+    html{ scroll-behavior:auto; }
+    .drift-heart{ animation: none; opacity:0; }
+    .reveal{ transition:none; opacity:1; transform:none; }
+    .envelope-flap{ transition: opacity .4s ease; }
+    #envelope.opening .envelope-flap{ transform:none; opacity:0; }
+    .scroll-cue{ animation:none; }
+    .flip-card-inner{ transition: opacity .3s ease; }
+  }
+</style>
+</head>
+<body>
+
+<noscript>
+  <div style="position:fixed;inset:0;background:#fff9f3;display:flex;align-items:center;justify-content:center;text-align:center;padding:2rem;font-family:sans-serif;color:#4a1e2b;">
+    <Template></Template>
+  </div>
+</noscript>
+
+<div id="hearts-bg" aria-hidden="true"></div>
+
+<div id="envelope">
+  <p class="envelope-eyebrow" id="envelope-label">CHECK YOUR MAIL BBGIRL</p>
+  <div class="envelope-card">
+    <div class="envelope-body"></div>
+    <div class="envelope-flap"></div>
+    <button class="envelope-seal" id="seal-btn" aria-label="Open the letter">♥</button>
+  </div>
+  <p class="envelope-hint" id="envelope-hint">tap the seal to open it</p>
+</div>
+
+<main id="main-content">
+
+  <header class="hero">
+    <p class="hero-eyebrow" id="hero-eyebrow"></p>
+    <h1 class="hero-headline" id="hero-headline"></h1>
+    <p class="hero-sub" id="hero-sub"></p>
+    <span class="scroll-cue" aria-hidden="true"></span>
+  </header>
+
+  <section id="timeline-section">
+    <h2 class="section-heading reveal" id="timeline-heading"></h2>
+    <div class="timeline-track" id="timeline-track"></div>
+  </section>
+
+  <section id="reasons-section">
+    <h2 class="section-heading reveal" id="reasons-heading"></h2>
+    <div class="reasons-grid" id="reasons-grid"></div>
+  </section>
+
+  <section id="gallery-section">
+    <h2 class="section-heading reveal" id="gallery-heading"></h2>
+    <div class="gallery-grid" id="gallery-grid"></div>
+  </section>
+
+  <section id="letter-section">
+    <h2 class="section-heading reveal" id="letter-heading"></h2>
+    <div class="letter-card reveal" id="letter-card"></div>
+  </section>
+
+  <section class="secret">
+    <button id="secret-btn"></button>
+    <p class="secret-message" id="secret-message"></p>
+  </section>
+
+  <footer class="site-footer">
+    <p class="footer-script reveal" id="footer-script"></p>
+    <p class="footer-date reveal" id="footer-date"></p>
+  </footer>
+
+</main>
+
+<script>
+
+const CONFIG = {
+
+  // Shown in the browser tab
+  pageTitle: "PARA MI GORDITA 🩷",
+
+  // The envelope you see first
+  envelopeLabel: "check your mail bbgirl",
+  envelopeHint: "toca el sellito para abrirlo !!",
+
+  // The hero section, right after the envelope opens
+  heroEyebrow: "Una partecita de mi corazón para ti, mi gordita hermosa.",
+  heroHeadline: "No importa como pase, siempre te eligire primero y siempre no importa que :3",
+  heroSub: "",
+
+
+  timelineHeading: "Mi parte favorita de ti",
+  timeline: [
+    {
+      date: "NUestros momentos juntos en juegos o en llamada",
+      title: "Mi bella novia",
+      text: "No tenemos muchas fotos juntos pero esta es mi favorita!.",
+      image: "images/timeline-1.jpg"
+    }
+  ],
+
+  // Flip cards — click each one to reveal the reason
+  reasonsHeading: "Mis razones de amarte",
+  reasons: [
+    "The way you care and worry about me even though im stinky sometimes",
+    "How you remember things i mention that I dont even remember",
+    "The way you laugh and always look at the brighter side of things",
+    "How caring and loving and cute you are",
+    "How you always persevere no matter what",
+    "How you've shown me to be a better person",
+    "The way you love and express yourself",
+    "Bella"
+  ],
+
+  // Photo gallery — add as many or as few as you like
+  galleryHeading: "",
+  gallery: [
+
+  ],
+
+  // The love letter — each line becomes its own paragraph
+  letterHeading: "Un mensajito para ti",
+  letter: [
+    "Querida Viviana",
+    "Aunque no lo digo mucho, de verdad has cambiado mi vida para lo mejor, me haces sentir amado, querido y apreciado. Es un sentimiento que nunca habia sentido antes y estoy muy agradecido que has decidido amarme",
+    "Gracias por tu paciencia, cariño y por ser la mejor novia que cualquier persona podria pedir, espero que tengas un amazing day y que esto te sirva para recordarte d elo mucho que te amos",
+    "Te amo mucho mi gordita hermosa, eres stinky jeje TE AMOOOO"
+  ],
+  letterSign: "con amor, Anthony",
+
+  // The tap-for-a-secret button near the bottom
+  secretLabel: "dont tap this",
+  secretMessage: "ur a stinky ho ",
+
+  // Footer sign-off
+  footerScript: "Hecho con amor :3",
+  footerDate: "August 11, 2026"
+};
+
+
+/* ================================================================
+   Everything below this line renders the page from CONFIG above.
+   You shouldn't need to touch it — but feel free to poke around.
+   ================================================================ */
+
+document.title = CONFIG.pageTitle;
+document.getElementById('envelope-label').textContent = CONFIG.envelopeLabel;
+document.getElementById('envelope-hint').textContent = CONFIG.envelopeHint;
+document.getElementById('hero-eyebrow').textContent = CONFIG.heroEyebrow;
+document.getElementById('hero-headline').textContent = CONFIG.heroHeadline;
+document.getElementById('hero-sub').textContent = CONFIG.heroSub;
+document.getElementById('timeline-heading').textContent = CONFIG.timelineHeading;
+document.getElementById('reasons-heading').textContent = CONFIG.reasonsHeading;
+document.getElementById('gallery-heading').textContent = CONFIG.galleryHeading;
+document.getElementById('letter-heading').textContent = CONFIG.letterHeading;
+document.getElementById('secret-btn').textContent = CONFIG.secretLabel;
+document.getElementById('secret-message').textContent = CONFIG.secretMessage;
+document.getElementById('footer-script').textContent = CONFIG.footerScript;
+document.getElementById('footer-date').textContent = CONFIG.footerDate;
+
+function attachImageFallback(imgEl, wrapEl){
+  imgEl.addEventListener('error', () => {
+    wrapEl.classList.add('no-image');
+    imgEl.remove();
+  });
+}
+
+/* ---- Timeline ---- */
+const track = document.getElementById('timeline-track');
+CONFIG.timeline.forEach(entry => {
+  const item = document.createElement('div');
+  item.className = 'timeline-item reveal';
+
+  const photoWrap = document.createElement('div');
+  photoWrap.className = 'timeline-photo-wrap';
+  if (entry.image){
+    const img = document.createElement('img');
+    img.className = 'timeline-photo';
+    img.src = entry.image;
+    img.alt = entry.title || 'A memory';
+    attachImageFallback(img, photoWrap);
+    photoWrap.appendChild(img);
+  } else {
+    photoWrap.classList.add('no-image');
+  }
+
+  const date = document.createElement('p');
+  date.className = 'timeline-date script';
+  date.textContent = entry.date;
+
+  const title = document.createElement('p');
+  title.className = 'timeline-title';
+  title.textContent = entry.title;
+
+  const text = document.createElement('p');
+  text.className = 'timeline-text';
+  text.textContent = entry.text;
+
+  item.append(photoWrap, date, title, text);
+  track.appendChild(item);
+});
+
+/* ---- Reasons (flip cards) ---- */
+const reasonsGrid = document.getElementById('reasons-grid');
+CONFIG.reasons.forEach((reason, i) => {
+  const card = document.createElement('div');
+  card.className = 'flip-card reveal';
+
+  const inner = document.createElement('div');
+  inner.className = 'flip-card-inner';
+
+  const front = document.createElement('div');
+  front.className = 'flip-face flip-front';
+  front.innerHTML = '<div class="heart-icon">♥</div><div class="flip-hint">reason ' + (i + 1) + ' — tap to reveal</div>';
+
+  const back = document.createElement('div');
+  back.className = 'flip-face flip-back';
+  back.textContent = reason;
+
+  inner.append(front, back);
+  card.appendChild(inner);
+  card.addEventListener('click', () => card.classList.toggle('flipped'));
+  reasonsGrid.appendChild(card);
+});
+
+/* ---- Gallery (polaroids) ---- */
+const galleryGrid = document.getElementById('gallery-grid');
+const rotations = [-6, 4, -3, 6, -5, 3, -4, 5];
+CONFIG.gallery.forEach((item, i) => {
+  const wrap = document.createElement('div');
+  wrap.className = 'polaroid reveal';
+  wrap.style.setProperty('--r', rotations[i % rotations.length] + 'deg');
+
+  const imgWrap = document.createElement('div');
+  imgWrap.className = 'polaroid-img';
+  if (item.image){
+    const img = document.createElement('img');
+    img.src = item.image;
+    img.alt = item.caption || 'A photo of us';
+    attachImageFallback(img, imgWrap);
+    imgWrap.appendChild(img);
+  } else {
+    imgWrap.classList.add('no-image');
+  }
+
+  const cap = document.createElement('div');
+  cap.className = 'polaroid-caption';
+  cap.textContent = item.caption || '';
+
+  wrap.append(imgWrap, cap);
+  galleryGrid.appendChild(wrap);
+});
+
+/* ---- Letter ---- */
+const letterCard = document.getElementById('letter-card');
+CONFIG.letter.forEach(line => {
+  const p = document.createElement('p');
+  p.className = 'letter-para';
+  p.textContent = line;
+  letterCard.appendChild(p);
+});
+const sign = document.createElement('p');
+sign.className = 'letter-sign';
+sign.textContent = CONFIG.letterSign;
+letterCard.appendChild(sign);
+
+/* ---- Ambient floating hearts ---- */
+const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+if (!reduceMotion){
+  const heartsBg = document.getElementById('hearts-bg');
+  const palette = ['#b5445e', '#c9a468', '#e39bb0'];
+  const HEART_COUNT = 20;
+  for (let i = 0; i < HEART_COUNT; i++){
+    const h = document.createElement('div');
+    h.className = 'drift-heart';
+    h.textContent = '♥';
+    const duration = 10 + Math.random() * 10;
+    const delay = -Math.random() * duration;
+    const size = 12 + Math.random() * 20;
+    h.style.left = Math.random() * 100 + '%';
+    h.style.fontSize = size + 'px';
+    h.style.color = palette[i % palette.length];
+    h.style.opacity = (0.3 + Math.random() * 0.4).toFixed(2);
+    h.style.setProperty('--drift', (Math.random() * 80 - 40) + 'px');
+    h.style.animationDuration = duration + 's';
+    h.style.animationDelay = delay + 's';
+    heartsBg.appendChild(h);
+  }
+}
+
+/* ---- Envelope open ---- */
+const envelope = document.getElementById('envelope');
+const sealBtn = document.getElementById('seal-btn');
+document.body.style.overflow = 'hidden';
+
+function openEnvelope(){
+  envelope.classList.add('opening');
+  sealBtn.disabled = true;
+  const delay = reduceMotion ? 200 : 750;
+  setTimeout(() => {
+    envelope.classList.add('opened');
+    document.body.style.overflow = '';
+  }, delay);
+}
+sealBtn.addEventListener('click', openEnvelope);
+
+/* ---- Scroll reveal ---- */
+const revealEls = document.querySelectorAll('.reveal');
+if ('IntersectionObserver' in window){
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting){
+        entry.target.classList.add('in-view');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15 });
+  revealEls.forEach(el => observer.observe(el));
+} else {
+  revealEls.forEach(el => el.classList.add('in-view'));
+}
+
+/* ---- Secret message + heart burst ---- */
+const secretBtn = document.getElementById('secret-btn');
+const secretMessage = document.getElementById('secret-message');
+let secretOpened = false;
+
+function burstHearts(x, y){
+  if (reduceMotion) return;
+  for (let i = 0; i < 12; i++){
+    const h = document.createElement('div');
+    h.className = 'burst-heart';
+    h.textContent = '♥';
+    const angle = Math.random() * Math.PI * 2;
+    const distance = 60 + Math.random() * 90;
+    h.style.setProperty('--bx', Math.cos(angle) * distance + 'px');
+    h.style.setProperty('--by', Math.sin(angle) * distance + 'px');
+    h.style.left = x + 'px';
+    h.style.top = y + 'px';
+    h.style.fontSize = (12 + Math.random() * 14) + 'px';
+    document.body.appendChild(h);
+    h.addEventListener('animationend', () => h.remove());
+  }
+}
+
+secretBtn.addEventListener('click', (e) => {
+  const rect = secretBtn.getBoundingClientRect();
+  burstHearts(rect.left + rect.width / 2, rect.top + rect.height / 2);
+  if (!secretOpened){
+    secretMessage.classList.add('shown');
+    secretOpened = true;
+  }
+});
+</script>
+</body>
+</html>
